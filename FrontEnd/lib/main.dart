@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:task_managment/screens/add_task_screen.dart';
 import 'package:task_managment/screens/home.dart';
 
 void main() {
@@ -12,11 +13,13 @@ class TaskManagementApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Home(),
+      // home: const Home(),
+      home: const AddTaskScreen(),
     );
   }
 }
