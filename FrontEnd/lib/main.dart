@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:task_managment/screens/add_task_screen.dart';
 import 'package:task_managment/screens/home.dart';
+import 'package:task_managment/screens/view_task_screen.dart';
 
 void main() {
   runApp(const TaskManagementApp());
@@ -19,7 +20,8 @@ class TaskManagementApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // home: const Home(),
-      home: const AddTaskScreen(),
+      // home: const AddTaskScreen(),
+      home: const ViewTaskScreen(),
     );
   }
 }
