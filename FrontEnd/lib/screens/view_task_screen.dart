@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_navigation/src/routes/transitions_type.dart';
+import 'package:task_managment/screens/add_task_screen.dart';
+import 'package:task_managment/screens/home.dart';
 import 'package:task_managment/utils/app_colors.dart';
 import 'package:task_managment/widgets/button_widget.dart';
 import 'package:task_managment/widgets/taskBox_widget.dart';
@@ -32,7 +37,7 @@ class ViewTaskScreen extends StatelessWidget {
       child: const Padding(
         padding: EdgeInsets.only(right: 15),
         child: Icon(
-          Icons.delete,
+          Icons.delete_forever,
           color: Colors.white,
         ),
       ),
@@ -68,7 +73,9 @@ class ViewTaskScreen extends StatelessWidget {
                   height: 60,
                 ),
                 IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Get.back();
+                  },
                   icon: const Icon(
                     Icons.arrow_back_ios,
                     size: 27,
@@ -88,7 +95,15 @@ class ViewTaskScreen extends StatelessWidget {
                 Row(
                   children: [
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.offAll(
+                          () => const Home(),
+                          transition: Transition.fade,
+                          duration: const Duration(
+                            milliseconds: 500,
+                          ),
+                        );
+                      },
                       icon: const Icon(
                         Icons.home,
                         size: 27,
@@ -96,7 +111,15 @@ class ViewTaskScreen extends StatelessWidget {
                       ),
                     ),
                     IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        Get.to(
+                          () => const AddTaskScreen(),
+                          transition: Transition.fade,
+                          duration: const Duration(
+                            milliseconds: 500,
+                          ),
+                        );
+                      },
                       icon: const Icon(
                         Icons.add_circle,
                         size: 27,
@@ -125,6 +148,7 @@ class ViewTaskScreen extends StatelessWidget {
           ),
           Flexible(
             child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 itemCount: myTask.length,
                 itemBuilder: (context, int index) {
@@ -133,18 +157,32 @@ class ViewTaskScreen extends StatelessWidget {
                     secondaryBackground: rightEditIcon,
                     key: ObjectKey(index),
                     onDismissed: (DismissDirection direction) {
-                      print("object");
+                      // print("object");
                     },
                     confirmDismiss: (DismissDirection direction) async {
-                      print(direction);
+                      // print(direction);
                       if (direction == DismissDirection.startToEnd) {
                         showModalBottomSheet(
+                            backgroundColor: Colors.transparent,
+                            barrierColor: Colors.transparent,
                             context: context,
                             builder: (_) {
                               return Container(
-                                height: 250,
+                                height: 300,
                                 decoration: BoxDecoration(
-                                    color: Colors.blueAccent.withOpacity(0.1)),
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(50),
+                                    topRight: Radius.circular(50),
+                                  ),
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topCenter,
+                                    end: Alignment.bottomCenter,
+                                    colors: [
+                                      Colors.blue,
+                                      Colors.blueAccent.withOpacity(0.2),
+                                    ],
+                                  ),
+                                ),
                                 child: Center(
                                     child: Padding(
                                   padding: const EdgeInsets.only(
@@ -154,13 +192,24 @@ class ViewTaskScreen extends StatelessWidget {
                                   child: Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      const ButtonWidget(
-                                        text: "Yes",
-                                        backgroundColor: AppColors.mainColor,
-                                        textColor: Colors.white,
+                                      InkWell(
+                                        onTap: () {
+                                          Get.to(
+                                            () => const AddTaskScreen(),
+                                            transition: Transition.fade,
+                                            duration: const Duration(
+                                              milliseconds: 500,
+                                            ),
+                                          );
+                                        },
+                                        child: const ButtonWidget(
+                                          text: "Yes",
+                                          backgroundColor: AppColors.mainColor,
+                                          textColor: Colors.white,
+                                        ),
                                       ),
                                       const SizedBox(
-                                        height: 10,
+                                        height: 20,
                                       ),
                                       ButtonWidget(
                                         text: "No",
@@ -179,10 +228,8 @@ class ViewTaskScreen extends StatelessWidget {
                             () => direction == DismissDirection.endToStart);
                       }
                     },
-                    child: Container(
-                      child: TaskWidget(
-                        text: myTask[index],
-                      ),
+                    child: TaskWidget(
+                      text: myTask[index],
                     ),
                   );
                 }),

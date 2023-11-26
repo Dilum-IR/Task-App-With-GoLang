@@ -47,7 +47,7 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 // find all tasks
 func getTasks(w http.ResponseWriter, r *http.Request) {
 	
-	w.Header().Set("Content-Type", "application/")
+	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(tasks)
 	
 }
@@ -101,7 +101,6 @@ func handleRoute() {
 func main() {
 
 	allTasks()
-	fmt.Println("hello hi")
 	handleRoute()
 
 }
