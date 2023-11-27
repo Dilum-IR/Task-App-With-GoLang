@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:task_managment/screens/add_task_screen.dart';
+import 'package:task_managment/screens/view_task_screen.dart';
 import 'package:task_managment/utils/app_colors.dart';
 import 'package:task_managment/widgets/button_widget.dart';
+import 'package:get/get.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -54,18 +57,36 @@ class _HomeState extends State<Home> {
               SizedBox(
                 height: MediaQuery.of(context).size.height / 2.5,
               ),
-              const ButtonWidget(
-                backgroundColor: AppColors.mainColor,
-                text: "Add Task",
-                textColor: AppColors.textHolder,
+              InkWell(
+                onTap: () => Get.to(
+                  () => const AddTaskScreen(),
+                  transition: Transition.fadeIn,
+                  duration: const Duration(
+                    milliseconds: 500,
+                  ),
+                ),
+                child: const ButtonWidget(
+                  backgroundColor: AppColors.mainColor,
+                  text: "Add Task",
+                  textColor: AppColors.textHolder,
+                ),
               ),
               SizedBox(
                 height: MediaQuery.of(context).size.height / 40,
               ),
-              const ButtonWidget(
-                backgroundColor: AppColors.textHolder,
-                text: "View All",
-                textColor: AppColors.smallTextColor,
+              InkWell(
+                onTap: () => Get.to(
+                  () => const ViewTaskScreen(),
+                  transition: Transition.rightToLeft,
+                  duration: const Duration(
+                    milliseconds: 500,
+                  ),
+                ),
+                child: const ButtonWidget(
+                  backgroundColor: AppColors.textHolder,
+                  text: "View All",
+                  textColor: AppColors.smallTextColor,
+                ),
               ),
             ],
           ),

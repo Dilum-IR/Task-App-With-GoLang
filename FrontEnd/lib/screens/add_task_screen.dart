@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:task_managment/utils/app_colors.dart';
 import 'package:task_managment/widgets/button_widget.dart';
 import 'package:task_managment/widgets/textField_widget.dart';
@@ -36,7 +38,9 @@ class AddTaskScreen extends StatelessWidget {
                   height: 50,
                 ),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Get.back();
+                    },
                     icon: const Icon(
                       Icons.arrow_back_ios,
                       color: AppColors.smallTextColor,
