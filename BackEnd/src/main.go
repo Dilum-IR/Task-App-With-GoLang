@@ -4,7 +4,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
+	"strconv"
+	"time"
 
 	"github.com/gorilla/mux"
 )
@@ -36,7 +39,6 @@ func allTasks() {
 	}
 
 	tasks = append(tasks, task1)
-	fmt.Println("your tasks are", tasks)
 
 }
 
@@ -47,9 +49,7 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 // find all tasks
 func getTasks(w http.ResponseWriter, r *http.Request) {
 
-	fmt.Println("called")
-
-	w.Header().Set("Content-Type", "application/json  charset= UTF-8")
+	w.Header().Set("Content-Type", "application/json charset=UTF-8")
 	json.NewEncoder(w).Encode(tasks)
 
 }
@@ -65,7 +65,6 @@ func getTask(w http.ResponseWriter, r *http.Request) {
 		if taskId["id"] == tasks[i].ID {
 			json.NewEncoder(w).Encode(tasks[i])
 			flag = true
-			fmt.Println("id found")
 			break
 		}
 
@@ -77,6 +76,17 @@ func getTask(w http.ResponseWriter, r *http.Request) {
 
 func create(w http.ResponseWriter, r *http.Request) {
 
+	fmt.Println("created new Task")
+
+	w.Header().Set("Content-Type", "application/json charset=UTF-8")
+	var task Tasks
+	_ = json.NewDecoder(r.Body).Decode(&task)
+	task.ID = strconv.Itoa(rand.Intn(1000))
+	currentTime := time.Now().Format("01-02-2006")
+	task.Date = currentTime
+
+	tasks = append(tasks, task)
+	json.NewEncoder(w).Encode(task)
 }
 func delete(w http.ResponseWriter, r *http.Request) {
 
@@ -96,6 +106,8 @@ func handleRoute() {
 	router.HandleFunc("/create", create).Methods("POST")
 	router.HandleFunc("/delete/{id}", delete).Methods("DELETE")
 	router.HandleFunc("/update/{id}", update).Methods("PUT")
+
+	fmt.Println("Sever Up And Running http://localhost:8080")
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 

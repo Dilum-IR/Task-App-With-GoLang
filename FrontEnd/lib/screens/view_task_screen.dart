@@ -23,7 +23,9 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
   late bool is_tap = false;
 
   void loadData() async {
-    mydata = await Get.find<DataController>().getData();
+    await Get.find<DataController>().getData();
+
+    mydata = await Get.find<DataController>().myData;
 
     if (mydata.isNotEmpty) {
       setState(() {
@@ -139,7 +141,7 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                     IconButton(
                       onPressed: () {
                         Get.to(
-                          () => const AddTaskScreen(),
+                          () => AddTaskScreen(),
                           transition: Transition.fade,
                           duration: const Duration(
                             milliseconds: 500,
@@ -225,7 +227,7 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                                           InkWell(
                                             onTap: () {
                                               Get.to(
-                                                () => const AddTaskScreen(),
+                                                () => AddTaskScreen(),
                                                 transition: Transition.fade,
                                                 duration: const Duration(
                                                   milliseconds: 500,

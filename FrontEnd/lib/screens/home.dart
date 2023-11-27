@@ -59,7 +59,7 @@ class _HomeState extends State<Home> {
               ),
               InkWell(
                 onTap: () => Get.to(
-                  () => const AddTaskScreen(),
+                  () => AddTaskScreen(),
                   transition: Transition.fadeIn,
                   duration: const Duration(
                     milliseconds: 500,

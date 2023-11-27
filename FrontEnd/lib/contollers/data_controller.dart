@@ -12,19 +12,32 @@ class DataController extends GetxController {
   List<dynamic> _myData = [];
   List<dynamic> get myData => _myData;
 
-  Future<dynamic> getData() async {
+  Future<void> getData() async {
     _isLoading = true;
     Response response = await dataService.getData();
 
     if (response.statusCode == 200) {
       _myData = response.body;
       print("we got a data");
-      // print(_myData);
       update();
-      return _myData;
     } else {
       print("we did not get any data");
-      return 0;
+    }
+  }
+
+  Future<void> postData(String taskName, String taskDetails) async {
+    _isLoading = true;
+    // pass the data using Json type
+    Response response = await dataService.postData({
+      "task_name": taskName,
+      "task_details": taskDetails,
+    });
+
+    if (response.statusCode == 200) {
+      update();
+      print("post data success");
+    } else {
+      print("post data faild");
     }
   }
 }
