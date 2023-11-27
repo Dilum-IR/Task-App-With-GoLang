@@ -12,16 +12,19 @@ class DataController extends GetxController {
   List<dynamic> _myData = [];
   List<dynamic> get myData => _myData;
 
-  Future<void> getData() async {
+  Future<dynamic> getData() async {
     _isLoading = true;
     Response response = await dataService.getData();
-    print(response.statusCode);
+
     if (response.statusCode == 200) {
       _myData = response.body;
       print("we got a data");
+      // print(_myData);
       update();
+      return _myData;
     } else {
-      print("we did not got any data");
+      print("we did not get any data");
+      return 0;
     }
   }
 }

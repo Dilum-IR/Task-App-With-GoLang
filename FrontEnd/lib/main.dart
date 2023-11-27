@@ -14,15 +14,8 @@ void main() {
 class TaskManagementApp extends StatelessWidget {
   const TaskManagementApp({super.key});
 
-  void loadData() async {
-    await Get.find<DataController>().getData();
-  }
-
   @override
   Widget build(BuildContext context) {
-    Get.lazyPut(() => DataController());
-    loadData();
-
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',

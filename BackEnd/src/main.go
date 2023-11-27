@@ -22,7 +22,7 @@ func allTasks() {
 
 	task := Tasks{
 		ID:          "1",
-		TaskName:    "New project",
+		TaskName:    "New project idea",
 		TaskDetails: "you must",
 		Date:        "2023-11-25",
 	}
@@ -46,10 +46,12 @@ func homePage(w http.ResponseWriter, r *http.Request) {
 
 // find all tasks
 func getTasks(w http.ResponseWriter, r *http.Request) {
-	
-	w.Header().Set("Content-Type", "application/json")
+
+	fmt.Println("called")
+
+	w.Header().Set("Content-Type", "application/json  charset= UTF-8")
 	json.NewEncoder(w).Encode(tasks)
-	
+
 }
 
 // find the specific task
@@ -63,6 +65,7 @@ func getTask(w http.ResponseWriter, r *http.Request) {
 		if taskId["id"] == tasks[i].ID {
 			json.NewEncoder(w).Encode(tasks[i])
 			flag = true
+			fmt.Println("id found")
 			break
 		}
 

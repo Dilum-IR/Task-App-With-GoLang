@@ -76,7 +76,7 @@ class _HomeState extends State<Home> {
               ),
               InkWell(
                 onTap: () => Get.to(
-                  () => const ViewTaskScreen(),
+                  () => ViewTaskScreen(),
                   transition: Transition.rightToLeft,
                   duration: const Duration(
                     milliseconds: 500,
