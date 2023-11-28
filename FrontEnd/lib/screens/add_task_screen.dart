@@ -4,7 +4,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/src/simple/list_notifier.dart';
 import 'package:task_managment/contollers/data_controller.dart';
 import 'package:task_managment/screens/home.dart';
-import 'package:task_managment/screens/view_task_screen.dart';
+import 'package:task_managment/screens/view_all_task_screen.dart';
 import 'package:task_managment/utils/app_colors.dart';
 import 'package:task_managment/widgets/button_widget.dart';
 import 'package:task_managment/widgets/popup_warning.dart';

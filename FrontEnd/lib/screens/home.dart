@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:task_managment/screens/add_task_screen.dart';
-import 'package:task_managment/screens/view_task_screen.dart';
+import 'package:task_managment/screens/view_all_task_screen.dart';
 import 'package:task_managment/utils/app_colors.dart';
 import 'package:task_managment/widgets/button_widget.dart';
 import 'package:get/get.dart';
+
+import '../contollers/data_controller.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -12,7 +14,30 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
-class _HomeState extends State<Home> {
+class _HomeState extends State<Home> with TickerProviderStateMixin {
+  late AnimationController controller;
+
+  late Animation<double> fadeOutAnimation;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    Get.lazyPut(() => DataController());
+    super.initState();
+    controller =
+        AnimationController(duration: const Duration(seconds: 1), vsync: this)
+          ..forward();
+    fadeOutAnimation =
+        CurvedAnimation(parent: controller, curve: Curves.easeInCirc);
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -35,23 +60,26 @@ class _HomeState extends State<Home> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              RichText(
-                text: const TextSpan(
-                  text: "Hello",
-                  style: TextStyle(
-                    color: AppColors.mainColor,
-                    fontSize: 60,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  children: [
-                    TextSpan(
-                      text: "\nstart your Beautiful day",
-                      style: TextStyle(
-                        color: AppColors.smallTextColor,
-                        fontSize: 15,
-                      ),
+              FadeTransition(
+                opacity: fadeOutAnimation,
+                child: RichText(
+                  text: const TextSpan(
+                    text: "Hello",
+                    style: TextStyle(
+                      color: AppColors.mainColor,
+                      fontSize: 60,
+                      fontWeight: FontWeight.bold,
                     ),
-                  ],
+                    children: [
+                      TextSpan(
+                        text: "\nstart your Beautiful day",
+                        style: TextStyle(
+                          color: AppColors.smallTextColor,
+                          fontSize: 15,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               SizedBox(
