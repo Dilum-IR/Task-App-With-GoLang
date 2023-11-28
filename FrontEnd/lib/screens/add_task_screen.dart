@@ -1,18 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:get/get_state_manager/src/simple/list_notifier.dart';
+import 'package:task_managment/contollers/data_controller.dart';
+import 'package:task_managment/screens/home.dart';
+import 'package:task_managment/screens/view_task_screen.dart';
 import 'package:task_managment/utils/app_colors.dart';
 import 'package:task_managment/widgets/button_widget.dart';
+import 'package:task_managment/widgets/popup_warning.dart';
 import 'package:task_managment/widgets/textField_widget.dart';
 
 class AddTaskScreen extends StatelessWidget {
-  const AddTaskScreen({Key? key}) : super(key: key);
+  AddTaskScreen({Key? key}) : super(key: key);
+
+  TextEditingController nameController = TextEditingController();
+  TextEditingController detailController = TextEditingController();
+
+  bool _dataValidation() {
+    if (nameController.text.trim().isEmpty) {
+      PopupWarning.taskWarning("Task Name", "Task Name is Required.");
+      return false;
+    } else if (detailController.text.trim().isEmpty) {
+      PopupWarning.taskWarning("Task Details", "Task Details is Required.");
+      return false;
+    } else if (detailController.text.length <= 20) {
+      PopupWarning.taskWarning(
+          "Task Details", "Task Details should be at least 20 characters.");
+      return false;
+    }
+    return true;
+  }
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController nameController = TextEditingController();
-    TextEditingController detailController = TextEditingController();
-
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Container(
@@ -67,10 +87,30 @@ class AddTaskScreen extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                const ButtonWidget(
-                  backgroundColor: AppColors.mainColor,
-                  text: "Add",
-                  textColor: Colors.white,
+                InkWell(
+                  onTap: () {
+                    if (_dataValidation()) {
+                      Get.find<DataController>().postData(
+                          nameController.text.trim(),
+                          detailController.text.trim());
+
+                      PopupWarning.taskWarning("Done", "Task added Successful.",
+                          color: Colors.green);
+
+                      Get.offAll(
+                        () => const Home(),
+                        transition: Transition.fade,
+                        duration: const Duration(
+                          milliseconds: 500,
+                        ),
+                      );
+                    }
+                  },
+                  child: const ButtonWidget(
+                    backgroundColor: AppColors.mainColor,
+                    text: "Add",
+                    textColor: Colors.white,
+                  ),
                 )
               ],
             ),

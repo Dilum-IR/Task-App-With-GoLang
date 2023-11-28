@@ -8,16 +8,44 @@ import 'package:task_managment/utils/app_colors.dart';
 import 'package:task_managment/widgets/button_widget.dart';
 import 'package:task_managment/widgets/taskBox_widget.dart';
 
-class ViewTaskScreen extends StatelessWidget {
+import '../contollers/data_controller.dart';
+
+class ViewTaskScreen extends StatefulWidget {
   const ViewTaskScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    List myTask = [
-      "Try Harder",
-      "Try smarter",
-    ];
+  State<ViewTaskScreen> createState() => _ViewTaskScreenState();
+}
 
+class _ViewTaskScreenState extends State<ViewTaskScreen> {
+  late List mydata;
+  late bool is_data = false;
+  late bool is_tap = false;
+
+  void loadData() async {
+    await Get.find<DataController>().getData();
+
+    mydata = await Get.find<DataController>().myData;
+
+    if (mydata.isNotEmpty) {
+      setState(() {
+        is_data = true;
+      });
+    }
+    print(mydata);
+  }
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+
+    Get.lazyPut(() => DataController());
+    loadData();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final leftEditIcon = Container(
       margin: const EdgeInsets.only(bottom: 10),
       color: AppColors.smallTextColor,
@@ -113,7 +141,7 @@ class ViewTaskScreen extends StatelessWidget {
                     IconButton(
                       onPressed: () {
                         Get.to(
-                          () => const AddTaskScreen(),
+                          () => AddTaskScreen(),
                           transition: Transition.fade,
                           duration: const Duration(
                             milliseconds: 500,
@@ -136,103 +164,113 @@ class ViewTaskScreen extends StatelessWidget {
                         size: 27,
                       ),
                     ),
-                    const Text(
-                      "2",
-                      style: TextStyle(
-                          fontSize: 18, color: AppColors.secondaryColor),
-                    )
+                    is_data
+                        ? Text(
+                            "${mydata.length}",
+                            style: const TextStyle(
+                                fontSize: 18, color: AppColors.secondaryColor),
+                          )
+                        : Container(),
                   ],
                 ),
               ],
             ),
           ),
           Flexible(
-            child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                scrollDirection: Axis.vertical,
-                itemCount: myTask.length,
-                itemBuilder: (context, int index) {
-                  return Dismissible(
-                    background: leftEditIcon,
-                    secondaryBackground: rightEditIcon,
-                    key: ObjectKey(index),
-                    onDismissed: (DismissDirection direction) {
-                      // print("object");
-                    },
-                    confirmDismiss: (DismissDirection direction) async {
-                      // print(direction);
-                      if (direction == DismissDirection.startToEnd) {
-                        showModalBottomSheet(
-                            backgroundColor: Colors.transparent,
-                            barrierColor: Colors.transparent,
-                            context: context,
-                            builder: (_) {
-                              return Container(
-                                height: 300,
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(50),
-                                    topRight: Radius.circular(50),
-                                  ),
-                                  gradient: LinearGradient(
-                                    begin: Alignment.topCenter,
-                                    end: Alignment.bottomCenter,
-                                    colors: [
-                                      Colors.blue,
-                                      Colors.blueAccent.withOpacity(0.2),
-                                    ],
-                                  ),
-                                ),
-                                child: Center(
-                                    child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 20,
-                                    right: 20,
-                                  ),
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      InkWell(
-                                        onTap: () {
-                                          Get.to(
-                                            () => const AddTaskScreen(),
-                                            transition: Transition.fade,
-                                            duration: const Duration(
-                                              milliseconds: 500,
+            child: is_data
+                ? ListView.builder(
+                    physics: const BouncingScrollPhysics(),
+                    scrollDirection: Axis.vertical,
+                    itemCount: mydata.length,
+                    itemBuilder: (context, int index) {
+                      return Dismissible(
+                        background: leftEditIcon,
+                        secondaryBackground: rightEditIcon,
+                        key: ObjectKey(mydata[index]['id']),
+                        onDismissed: (DismissDirection direction) {
+                          // print("object");
+                        },
+                        confirmDismiss: (DismissDirection direction) async {
+                          // print(direction);
+                          if (direction == DismissDirection.startToEnd) {
+                            showModalBottomSheet(
+                                backgroundColor: Colors.transparent,
+                                barrierColor: Colors.transparent,
+                                context: context,
+                                builder: (_) {
+                                  return Container(
+                                    height: 300,
+                                    decoration: BoxDecoration(
+                                      borderRadius: const BorderRadius.only(
+                                        topLeft: Radius.circular(50),
+                                        topRight: Radius.circular(50),
+                                      ),
+                                      gradient: LinearGradient(
+                                        begin: Alignment.topCenter,
+                                        end: Alignment.bottomCenter,
+                                        colors: [
+                                          Colors.blue,
+                                          Colors.blueAccent.withOpacity(0.2),
+                                        ],
+                                      ),
+                                    ),
+                                    child: Center(
+                                        child: Padding(
+                                      padding: const EdgeInsets.only(
+                                        left: 20,
+                                        right: 20,
+                                      ),
+                                      child: Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          InkWell(
+                                            onTap: () {
+                                              Get.to(
+                                                () => AddTaskScreen(),
+                                                transition: Transition.fade,
+                                                duration: const Duration(
+                                                  milliseconds: 500,
+                                                ),
+                                              );
+                                            },
+                                            child: const ButtonWidget(
+                                              text: "Yes",
+                                              backgroundColor:
+                                                  AppColors.mainColor,
+                                              textColor: Colors.white,
                                             ),
-                                          );
-                                        },
-                                        child: const ButtonWidget(
-                                          text: "Yes",
-                                          backgroundColor: AppColors.mainColor,
-                                          textColor: Colors.white,
-                                        ),
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
+                                          ButtonWidget(
+                                            text: "No",
+                                            backgroundColor:
+                                                Colors.grey.withOpacity(0.4),
+                                            textColor: AppColors.mainColor,
+                                          ),
+                                        ],
                                       ),
-                                      const SizedBox(
-                                        height: 20,
-                                      ),
-                                      ButtonWidget(
-                                        text: "No",
-                                        backgroundColor:
-                                            Colors.grey.withOpacity(0.4),
-                                        textColor: AppColors.mainColor,
-                                      ),
-                                    ],
-                                  ),
-                                )),
-                              );
-                            });
-                        return false;
-                      } else {
-                        return Future.delayed(const Duration(seconds: 1),
-                            () => direction == DismissDirection.endToStart);
-                      }
-                    },
-                    child: TaskWidget(
-                      text: myTask[index],
+                                    )),
+                                  );
+                                });
+                            return false;
+                          } else {
+                            return Future.delayed(const Duration(seconds: 1),
+                                () => direction == DismissDirection.endToStart);
+                          }
+                        },
+                        child: TaskWidget(
+                          text: mydata[index]['task_name'],
+                        ),
+                      );
+                    })
+                : const Center(
+                    child: CircularProgressIndicator(
+                      color: Colors.deepPurple,
                     ),
-                  );
-                }),
+                  ),
           )
         ],
       ),
