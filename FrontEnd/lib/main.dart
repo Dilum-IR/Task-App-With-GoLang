@@ -5,7 +5,7 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:task_managment/contollers/data_controller.dart';
 import 'package:task_managment/screens/add_task_screen.dart';
 import 'package:task_managment/screens/home.dart';
-import 'package:task_managment/screens/view_task_screen.dart';
+import 'package:task_managment/screens/view_all_task_screen.dart';
 
 void main() {
   runApp(const TaskManagementApp());

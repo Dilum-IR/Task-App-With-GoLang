@@ -63,14 +63,16 @@ func getTask(w http.ResponseWriter, r *http.Request) {
 
 	for i := 0; i < len(tasks); i++ {
 		if taskId["id"] == tasks[i].ID {
+			fmt.Println(tasks[i])
 			json.NewEncoder(w).Encode(tasks[i])
 			flag = true
 			break
 		}
 
-		if flag == false {
-			json.NewEncoder(w).Encode(map[string]string{"status": "Error"})
-		}
+	}
+
+	if flag == false {
+		json.NewEncoder(w).Encode(map[string]string{"status": "Error"})
 	}
 }
 

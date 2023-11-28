@@ -4,6 +4,7 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/src/routes/transitions_type.dart';
 import 'package:task_managment/screens/add_task_screen.dart';
 import 'package:task_managment/screens/home.dart';
+import 'package:task_managment/screens/view_task.dart';
 import 'package:task_managment/utils/app_colors.dart';
 import 'package:task_managment/widgets/button_widget.dart';
 import 'package:task_managment/widgets/taskBox_widget.dart';
@@ -39,8 +40,6 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    Get.lazyPut(() => DataController());
     loadData();
   }
 
@@ -98,7 +97,7 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
             child: Column(
               children: [
                 const SizedBox(
-                  height: 60,
+                  height: 40,
                 ),
                 IconButton(
                   onPressed: () {
@@ -199,7 +198,7 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                                 context: context,
                                 builder: (_) {
                                   return Container(
-                                    height: 300,
+                                    height: 250,
                                     decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.only(
                                         topLeft: Radius.circular(50),
@@ -234,21 +233,33 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                                                 ),
                                               );
                                             },
-                                            child: const ButtonWidget(
-                                              text: "Yes",
-                                              backgroundColor:
-                                                  AppColors.mainColor,
-                                              textColor: Colors.white,
+                                            child: GestureDetector(
+                                              onTap: () {
+                                                Get.to(
+                                                  () => ViewTask(
+                                                    id: mydata[index]['id'],
+                                                  ),
+                                                );
+                                              },
+                                              child: const ButtonWidget(
+                                                text: "View",
+                                                backgroundColor:
+                                                    AppColors.mainColor,
+                                                textColor: Colors.white,
+                                              ),
                                             ),
                                           ),
                                           const SizedBox(
                                             height: 20,
                                           ),
-                                          ButtonWidget(
-                                            text: "No",
-                                            backgroundColor:
-                                                Colors.grey.withOpacity(0.4),
-                                            textColor: AppColors.mainColor,
+                                          GestureDetector(
+                                            onTap: () {},
+                                            child: ButtonWidget(
+                                              text: "Edit",
+                                              backgroundColor:
+                                                  Colors.grey.withOpacity(0.4),
+                                              textColor: AppColors.mainColor,
+                                            ),
                                           ),
                                         ],
                                       ),

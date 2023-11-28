@@ -21,7 +21,7 @@ class PopupWarning {
       backgroundColor: Colors.blueAccent.withOpacity(0.3),
       colorText: color,
       icon: Icon(
-        title == "Done" ? Icons.bookmark_added : Icons.error,
+        title == "Done" ? Icons.check : Icons.error,
         color: color,
         size: 30,
       ),
