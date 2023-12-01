@@ -95,6 +95,7 @@ func delete(w http.ResponseWriter, r *http.Request) {
 }
 func update(w http.ResponseWriter, r *http.Request) {
 
+	fmt.Println("updated method calling")
 }
 
 // all routers

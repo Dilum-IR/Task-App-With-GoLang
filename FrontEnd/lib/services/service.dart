@@ -31,4 +31,14 @@ class DataService extends GetConnect implements GetxService {
     );
     return response;
   }
+
+  Future<Response> updateTaskData(String id, dynamic body) async {
+    Response response = await put(
+      "${Constraints.UPDATE_TASK}/$id",
+      body,
+      headers: {'Content-Type': 'application/json; charset=UTF-8'},
+    );
+    // print(response.bodyBytes);
+    return response;
+  }
 }

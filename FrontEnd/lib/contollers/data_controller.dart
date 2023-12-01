@@ -66,7 +66,31 @@ class DataController extends GetxController {
 
       print("find task data success");
     } else {
-      print("find task data faild");
+      print("find task data faild ${response.statusCode}");
+    }
+  }
+
+  Future<void> updateTask(
+      String id, String taskName, String taskDetails) async {
+    _isLoading = true;
+    // print("controller : " + id.toString());
+    // pass the data using Json type
+    Response response = await dataService.updateTaskData(id, {
+      "task_name": taskName,
+      "task_details": taskDetails,
+    });
+
+    if (response.statusCode == 200) {
+      // _findData = response.body;
+      // _findData = jsonDecode(response.body);
+      update();
+      if (kDebugMode) {
+        // print(_findData['task_name']);
+      }
+
+      print("update task data success");
+    } else {
+      print("update task data faild");
     }
   }
 }
