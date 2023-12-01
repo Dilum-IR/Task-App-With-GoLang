@@ -10,6 +10,7 @@ import 'package:task_managment/widgets/button_widget.dart';
 import 'package:task_managment/widgets/taskBox_widget.dart';
 
 import '../contollers/data_controller.dart';
+import 'edit_task_screen.dart';
 
 class ViewTaskScreen extends StatefulWidget {
   const ViewTaskScreen({Key? key}) : super(key: key);
@@ -253,7 +254,18 @@ class _ViewTaskScreenState extends State<ViewTaskScreen> {
                                             height: 20,
                                           ),
                                           GestureDetector(
-                                            onTap: () {},
+                                            onTap: () {
+                                              print(mydata[index]);
+                                              Get.to(
+                                                () => EditTaskScreen(
+                                                  id: mydata[index]['id'],
+                                                  task_name: mydata[index]
+                                                      ['task_name'],
+                                                  task_details: mydata[index]
+                                                      ['task_details'],
+                                                ),
+                                              );
+                                            },
                                             child: ButtonWidget(
                                               text: "Edit",
                                               backgroundColor:

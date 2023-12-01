@@ -24,9 +24,9 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
     // TODO: implement initState
     Get.lazyPut(() => DataController());
     super.initState();
-    controller =
-        AnimationController(duration: const Duration(seconds: 1), vsync: this)
-          ..forward();
+    controller = AnimationController(
+        duration: const Duration(milliseconds: 500), vsync: this)
+      ..forward();
     fadeOutAnimation =
         CurvedAnimation(parent: controller, curve: Curves.easeInCirc);
   }
@@ -85,18 +85,21 @@ class _HomeState extends State<Home> with TickerProviderStateMixin {
               SizedBox(
                 height: MediaQuery.of(context).size.height / 2.5,
               ),
-              InkWell(
-                onTap: () => Get.to(
-                  () => AddTaskScreen(),
-                  transition: Transition.fadeIn,
-                  duration: const Duration(
-                    milliseconds: 500,
+              FadeTransition(
+                opacity: fadeOutAnimation,
+                child: InkWell(
+                  onTap: () => Get.to(
+                    () => AddTaskScreen(),
+                    transition: Transition.fadeIn,
+                    duration: const Duration(
+                      milliseconds: 500,
+                    ),
                   ),
-                ),
-                child: const ButtonWidget(
-                  backgroundColor: AppColors.mainColor,
-                  text: "Add Task",
-                  textColor: AppColors.textHolder,
+                  child: const ButtonWidget(
+                    backgroundColor: AppColors.mainColor,
+                    text: "Add Task",
+                    textColor: AppColors.textHolder,
+                  ),
                 ),
               ),
               SizedBox(
