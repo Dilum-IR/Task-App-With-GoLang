@@ -23,9 +23,10 @@ Task data is securely stored and retrieved using a MySQL database. MySQL, a wide
 ## Getting Started
 
 1. **Clone the Repository:**
+   ```bash
    https://github.com/LearnCsWithDIR/Task-App-With-GoLang.git
-
-2. **Setup:**
+   ```
+3. **Setup:**
 - Follow the setup instructions in the [documentation](https://flutter.dev/) to configure the environment and dependencies.
 - Ensure Flutter is installed for the frontend, and the Go runtime is set up for the backend.
 - Configure the MySQL database with the provided schema.
