@@ -34,7 +34,13 @@ Task data is securely stored and retrieved using a MySQL database. MySQL, a wide
 3. **Run the Application:**
 - Launch the Flutter app on your preferred emulator or physical device.
 - Start the Go server to handle backend operations.
+   ```bash
+     cd backend/src
+   ```
 
+   ```bash
+    go run main.go
+   ```
 ## License
 
 This project is licensed under the [MIT License](https://github.com/LearnCsWithDIR/Task-App-With-GoLang/blob/master/LICENSE), allowing for free use, modification, and distribution of the code.
